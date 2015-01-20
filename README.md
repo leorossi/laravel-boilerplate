@@ -27,6 +27,10 @@ Change directory
 cd laravel-boilerplate
 ```
 
+Install composer dependencies
+```
+composer install
+```
 
 Install bower components
 ```
