@@ -23,4 +23,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+
+	/**
+	 * Returns if the user has an admin role
+	 * @return boolean 
+	 */
+	public function isAdmin() {
+
+		return $this->role == 1;
+	}
 }
