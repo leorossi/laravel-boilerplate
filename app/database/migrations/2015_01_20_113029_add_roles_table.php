@@ -36,6 +36,7 @@ class AddRolesTable extends Migration {
 		// add foreign key to users table
 		Schema::table('users', function(Blueprint $table) {
 			$normalUserRole = Role::where('name', 'default')->first();	
+			$table->dropColumn('role');
 			$table->integer('role_id')->unsigned()->after('password')->default($normalUserRole->id);
 			$table->foreign('role_id')->references('id')->on('user_roles');	
 		});
@@ -49,6 +50,7 @@ class AddRolesTable extends Migration {
 	public function down()
 	{
 		Schema::table('users', function(Blueprint $table) {
+			$table->integer('role')->after('password');
 			$table->dropForeign('users_role_id_foreign');
 			$table->dropColumn('role_id');
 		});

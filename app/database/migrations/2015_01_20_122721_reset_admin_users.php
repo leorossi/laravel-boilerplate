@@ -3,8 +3,12 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddAdminUser extends Migration {
+class ResetAdminUsers extends Migration {
 
+	private $adminRole;
+	public function __construct() {
+		$this->adminRole = Role::where('name', 'admin')->first();		
+	}	
 	/**
 	 * Run the migrations.
 	 *
@@ -12,18 +16,20 @@ class AddAdminUser extends Migration {
 	 */
 	public function up()
 	{
-		$adminRole = Role::where('name', 'admin')->first();
-
 		foreach(Config::get('boilerplate.admins') as $email => $password) {
-			$u = new User();
-			$u->email = $email;
-			$u->password = Hash::make($password);
-			$u->role_id = $adminRole->id;
-			$u->remember_token = '';
+			$u = User::where('email', $email)->first();
+			if (!$u) {
+				// no user found, creating a new one.
+				$u = new User();
+				$u->email = $email;
+				$u->password = Hash::make($password);
+				$u->remember_token = '';
+			}
+			$u->role_id = $this->adminRole->id;
 			$u->save();	
 		}
 	}
-
+	
 	/**
 	 * Reverse the migrations.
 	 *

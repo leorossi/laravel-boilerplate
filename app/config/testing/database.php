@@ -1,6 +1,6 @@
 <?php
 return array(
-  'default' => 'sqlite',
+  'default' => 'mysql',
   'connections' => array(
       'mysql' => array(
       'driver'    => 'mysql',
