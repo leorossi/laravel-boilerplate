@@ -25,11 +25,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 
 	/**
+	 * Return Role model associated with this user;
+	 */
+	public function role() {
+		return $this->belongsTo('Role');
+	}
+
+	/**
 	 * Returns if the user has an admin role
 	 * @return boolean 
 	 */
 	public function isAdmin() {
-
-		return $this->role == 1;
+		return $this->role->id == 1;
 	}
 }

@@ -12,11 +12,16 @@ class AddAdminUser extends Migration {
 	 */
 	public function up()
 	{
-		$u = new User();
-		$u->email = "admin@example.com";
-		$u->password = Hash::make('admin');
-		$u->role = 1;
-		$u->save();
+		$adminRole = Role::where('name', 'admin')->first();
+
+		foreach(Config::get('boilerplate.admins') as $email => $password) {
+			$u = new User();
+			$u->email = $email;
+			$u->password = Hash::make($password);
+			$u->role_id = $adminRole->id;
+			$u->remember_token = '';
+			$u->save();	
+		}
 	}
 
 	/**
